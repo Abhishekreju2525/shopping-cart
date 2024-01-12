@@ -1,0 +1,138 @@
+<section>
+    <div class="container mt-4">
+        <div class="row">
+
+            <div class="col-md-6">
+                <h2 class="text-center">Add new address {{user.address.length}}</h2>
+
+                <form action="/add-address" method="post" enctype="multipart/form-data">
+                <input type="text" name="addrId" value="addr{{user.address.length}}" hidden>
+                    <label for="name">Name</label>
+                    <input type="text" name="name" id="name" class="form-control" required />
+
+                    <label for="phone">Mobile number</label>
+                    <input type="tel" name="phone" id="phone" class="form-control" required />
+
+                    <label for="housename">Flat, House no., Building, Company, Apartment</label>
+                    <input type="text" name="housename" id="housename" class="form-control" required />
+
+                   
+                    <label for="line1">Address Line 1 </label>
+                    <input type="text" name="line1" id="line1" class="form-control" />
+
+                    <label for="line2">Address Line 2 (optional)</label>
+                    <input type="text" name="line2" id="line2" class="form-control" />
+
+                    <label for="pincode">Pincode</label>
+                    <input type="text" name="pincode" id="pincode" class="form-control" required />
+                    <div id="pincode-alert" class="alert alert-danger" style="display: none;">
+                        Invalid Pincode
+                    </div>
+
+                    <label for="area">Area/Locality</label>
+                    <input type="text" name="area" id="area" class="form-control" required />
+
+                    <label for="city">City</label>
+                    <input type="text" name="city" id="city" class="form-control" required />
+
+                    <label for="state">State</label>
+                    <input type="text" name="state" id="state" class="form-control" required />
+
+                    <label for="country">Country</label>
+                    <input type="text" name="country" id="country" class="form-control" value="India" required />
+
+                    
+
+                    <!-- Add a loading spinner (you can customize the loading effect) -->
+                    <div id="loading-spinner" class="text-center" style="display: none;">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+
+                    <br>
+                    <input type="submit" value="Add" class="btn btn-success mt-5">
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ... (previous code) ... -->
+<!-- ... (previous code) ... -->
+<!-- ... (previous code) ... -->
+
+<!-- ... (previous code) ... -->
+
+<script>
+    // Function to show an alert message
+    function showAlert(message) {
+        const alert = document.getElementById("pincode-alert");
+        alert.innerText = message;
+        alert.style.display = "block";
+    }
+
+    // Function to hide the alert message
+    function hideAlert() {
+        const alert = document.getElementById("pincode-alert");
+        alert.style.display = "none";
+    }
+
+    // Function to show the loading spinner
+    function showLoading() {
+        document.getElementById("loading-spinner").style.display = "block";
+    }
+
+    // Function to hide the loading spinner
+    function hideLoading() {
+        document.getElementById("loading-spinner").style.display = "none";
+    }
+
+    // Function to validate the pincode format
+    function validatePincodeFormat(pincode) {
+        // Here, we are using a regular expression to check for a valid pincode format (6 digits)
+        return /^\d{6}$/.test(pincode);
+    }
+
+    // Function to make an API request and populate address fields
+    async function fetchAddressData(pincode) {
+        hideAlert(); // Hide any previous alerts
+        if (!validatePincodeFormat(pincode)) {
+            showAlert("Invalid Pincode Format");
+            return;
+        }
+
+        showLoading(); // Show loading spinner while fetching data
+
+        try {
+            const response = await fetch(`https://api.postalpincode.in/pincode/${pincode}`);
+            const data = await response.json();
+
+            if (data && data[0].PostOffice) {
+                const postOffice = data[0].PostOffice[0];
+
+                // Populate the address fields with the retrieved data
+                document.getElementById("area").value = postOffice.Block;
+                document.getElementById("city").value = postOffice.District;
+                document.getElementById("state").value = postOffice.State;
+                document.getElementById("country").value = postOffice.Country;
+            } else if (data && data[0].Message === "No records found") {
+                showAlert("Invalid Pincode");
+            }
+        } catch (error) {
+            console.error('Error fetching address data:', error);
+        } finally {
+            hideLoading(); // Hide loading spinner after fetching data
+        }
+    }
+
+    // Add an event listener to the "Pincode" input field
+    document.getElementById("pincode").addEventListener("blur", function() {
+        const pincode = this.value;
+        if (pincode) {
+            fetchAddressData(pincode);
+        }
+    });
+</script>
+
+<!-- ... (remaining code) ... -->

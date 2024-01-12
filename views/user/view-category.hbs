@@ -1,0 +1,29 @@
+<section>
+    <div class="container mt-5">
+        <h3>Showing {{category}} </h3>
+        <div class="row">
+            {{#each products}}
+            <div class="col-md-3 m-0">
+                <a href="/product-page/{{this._id}}" style="text-decoration: none;color:black;">
+                    <div class="card prodCard">
+                        <img class="card-img-top" style="height: auto;width:100%;"
+                            src="/product-images/{{this._id}}.jpg" alt="Card image cap" />
+                        <div class="card-body">
+                            <h5 class="card-title">{{this.name}}</h5>
+                            <p class="card-text">
+                            <h5>₹{{this.offerPrice}}</h5>
+                            <font style="color: red;">-{{this.discount}}%</font> MRP : <s> ₹{{this.price}} </s></p>
+
+
+
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            {{/each}}
+
+        </div>
+
+    </div>
+</section>

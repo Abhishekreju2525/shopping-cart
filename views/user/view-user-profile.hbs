@@ -1,0 +1,92 @@
+<section>
+    <div class="container mt-4">
+        <h1>
+            View profile
+        </h1>
+        <div class="card">
+            <div class="card-body">
+                <h6>
+                    Name :
+                </h6>
+                {{user.name}}
+                <a href="/edit-profile/?key=name">
+                    <button class="btn btn-outline-secondary float-right"
+                        style="box-shadow:1px solid black;">Edit</button>
+                </a>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h6>
+                    Email ID :
+                </h6>
+                {{user.email}}
+                <a href="/edit-profile/?key=email">
+                    <button class="btn btn-outline-secondary float-right"
+                        style="box-shadow:1px solid black;">Edit</button>
+                </a>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h6>
+                    Password :
+                </h6>
+
+                ************
+
+                <a href="/change-password">
+                    <button class="btn btn-outline-secondary float-right" style="box-shadow:1px solid black;">Change
+                        password</button>
+                </a>
+
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h6 class="text-end">
+                    <a href="/add-address" class="btn btn-success">Add</a>
+                </h6>
+                <h6 class="mb-4">Your Addresses</h6>
+                <div class="row">
+                    {{#if user.address.length}}
+                    {{#each user.address}}
+                    <div class="col-12 col-md-6 col-lg-3 mb-4">
+                        <div class="card">
+
+                            <div class="card-body custom-card-body">
+                                <button class="btn border-0 bg-transparent float-right" style="color: red;"
+                                    onclick="confirmAndDeleteAddress('{{../user._id}}','{{this.addrId}}')">
+                                    <span class="material-symbols-outlined">
+                                        delete
+                                    </span>
+                                </button>
+                                <h6><b>Address {{add @index 1}}</b> </h6>
+
+
+                                <p>
+                                    {{this.name}}<br>
+                                    {{this.housename}}<br>
+                                    {{this.line1}}<br>
+                                    {{this.line2}}<br>
+                                    {{this.area}}<br>
+                                    {{this.city}}, {{this.state}}, {{this.country}}<br>
+                                    PIN: {{this.pincode}}<br>
+                                    +91 {{this.phone}}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                    {{else}}
+                        No addresses found
+
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+</section>

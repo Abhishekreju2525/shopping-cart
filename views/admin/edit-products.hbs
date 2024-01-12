@@ -9,18 +9,57 @@
           <label for="name">Name</label>
           <input type="text" name="name" id="name" class="form-control" value="{{product.name}}" />
 
-          <label for="category">Category</label>
-          <input type="text" name="category" id="category" class="form-control" value="{{product.category}}" />
+          {{!-- <label for="category">Category</label>
+          <input type="text" name="category" id="category" class="form-control" value="{{product.category}}" /> --}}
 
           <label for="price">Price</label>
           <input type="text" name="price" id="price" class="form-control" value="{{product.price}}" />
+
+          <label for="discount">Discount [In %] </label>
+          <input type="number" max="100" min="0" name="discount" id="discount" class="form-control"
+            value="{{product.discount}}" />
 
           <label for="description">Description</label>
           <input type="text" name="description" id="description" class="form-control" value="{{product.description}}" />
 
           <label for="image">Image</label>
-          <img src="/product-images/{{product._id}}.jpg" style="width: 100px;height:auto;" alt="">
-          <input type="file" name="image" id="image" class="form-control" />
+          <img src="/product-images/{{product._id}}.jpg" style="width: 100px;height:auto;" alt="" id="imgView"
+            class="pt-3 pb-3">
+          <input type="file" name="image" id="image" class="form-control" onchange="viewImage(event)" required />
+          <br>
+          <label for="category">Category</label><br>
+          <select id="category" name="category">
+            {{#each category}}
+            {{#if (eq this.name ../product.category) }}
+            <option value="{{this.name}}" selected>{{this.name}}</option>
+            {{else}}
+            <option value="{{this.name}}">{{this.name}}</option>
+            {{/if}}
+
+
+            {{/each}}
+          </select>
+          <div class="p-4">&nbsp; </div>
+          <h4>Technical specifications</h4>
+
+          {{#each categoryDetails.specs}}
+          {{#each ../prodSpecs}}
+          {{#if (eq @key ../this)}}
+          {{#if (or (eq @key '_id') (eq @key 'prodId'))}}
+          <!-- Code for _id and prodId -->
+          {{else}}
+          
+          <label for="{{@key}}">{{@key}}</label><br>
+        
+          <input type="text" name="{{@key}}" id="{{@key}}" value="{{this}}"><br>
+          {{/if}}
+          {{/if}}
+          {{/each}}
+          {{/each}}
+
+
+
+
 
 
           <input type="submit" value="Submit" class="btn btn-success mt-5">
@@ -29,3 +68,9 @@
     </div>
   </div>
 </section>
+
+<script>
+  function viewImage(event) {
+    document.getElementById('imgView').src = URL.createObjectURL(event.target.files[0])
+  }
+</script>

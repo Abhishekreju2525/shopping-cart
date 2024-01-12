@@ -1,0 +1,57 @@
+<section>
+  <div class="container">
+
+
+
+
+    <div class="row">
+      <div class="col-4 p-4">
+        <img src="/product-images/{{prodData._id}}.jpg" style="width: 50vh;height:auto;" alt="" id="imgView"
+          class="pt-3 pb-3">
+
+      </div>
+      <div class="col-8 p-5">
+        <h2>
+          {{prodData.name}}
+        </h2>
+        <h3>
+          ₹{{prodData.offerPrice}}
+        </h3>
+        <p class="card-text">Discount : <font style="color: red;">-{{prodData.discount}}%</font>
+        </p>
+        <p class="card-text">MRP : <s> ₹{{prodData.price}} </s></p>
+
+        <span>Category : <a href="">{{prodData.category}}</a></span><br><br>
+        Description : <b>{{prodData.description}}</b>
+        <br><br>
+        <button onclick="addToCart('{{prodData._id}}')" class="btn btn-primary">Add to cart</button>
+      </div>
+
+    </div>
+    <div class="row">
+
+
+
+
+
+      <table class="table table-bordered">
+        <thead>
+          <h3>Technical specifications</h3>
+        </thead>
+        <tbody>
+
+          {{#each prodSpecs}}
+          {{!-- {{#if this}} --}}
+          <tr>
+            <th scope="row">{{@key}}</th>
+            <td>{{this}}</td>
+          </tr>
+          {{!-- {{/if}} --}}
+          {{/each}}
+
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

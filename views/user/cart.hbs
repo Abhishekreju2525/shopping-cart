@@ -1,6 +1,54 @@
 <div class="container">
 
-    <h2>Cart is empty</h2>
+  <h2>Cart</h2>
 
+  <table class="table mt-5">
+    <thead>
+      <tr>
+        <th scope="col">Item</th>
+        <th scope="col">Title</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each products}}
+      <tr>
+        <td><img style="width:70px;height:70px;" src="/product-images/{{this.product._id}}.jpg"
+            alt="{{this.product.name}}" /></td>
+        <td>{{this.product.name}}</td>
+        {{!-- product quantity change button --}}
+        <td>
+          {{#if (eq this.quantity 1)}}
+          <button disabled id="decBtn{{this.product._id}}" class="btn btn-secondary mr-3"
+            onclick="changeQuantity('{{this._id}}','{{this.product._id}}',-1)">-</button>
+          {{else}}
+          <button id="decBtn{{this.product._id}}" class="btn btn-secondary mr-3"
+            onclick="changeQuantity('{{this._id}}','{{this.product._id}}',-1)">-</button>
+          {{/if}}
+          <span id="{{this.product._id}}">{{this.quantity}} </span>
+          <button id="incBtn" class="btn btn-secondary ml-3"
+            onclick="changeQuantity('{{this._id}}','{{this.product._id}}',1)">+ </button>
+        </td>
+        <td>
+          Rs. {{this.product.offerPrice}}
+        </td>
+        {{!-- Remove product button --}}
+        <td>
+          <button class="btn btn-danger"
+            onclick="confirmAndDeleteCartProduct('{{this._id}}','{{this.product._id}}')">Remove</button>
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
 
+  </table>
+  <hr>
+  <span class="float-right">
+    <h3>
+      Total : Rs. {{total}}
+    </h3>
+    <a href="/place-order" class=" float-right btn btn-success">
+      Place order</a>
+  </span>
 </div>

@@ -3,25 +3,41 @@
     <div class="row">
 
       <div class="col-md-6">
-        <h2 class="text-center">Add product</h2>
+        <h2 class="text-center">Add {{category.name}}</h2>
 
         <form action="/admin/add-product" method="post" enctype="multipart/form-data">
           <label for="name">Name</label>
-          <input type="text" name="name" id="name" class="form-control" />
-
-          <label for="category">Category</label>
-          <input type="text" name="category" id="category" class="form-control" />
+          <input type="text" name="name" id="name" class="form-control" required />
 
           <label for="price">Price</label>
-          <input type="text" name="price" id="price" class="form-control" />
+          <input type="text" name="price" id="price" class="form-control" required />
+
+          <label for="discount">Discount [In %] </label>
+          <input type="number" max="100" min="0" name="discount" id="discount" class="form-control" required />
 
           <label for="description">Description</label>
-          <input type="text" name="description" id="description" class="form-control" />
+          <input type="text" name="description" id="description" class="form-control" required />
 
+          <input type="text" name="category" id="Category" value="{{category.name}}" hidden>
+          
           <label for="image">Image</label>
-          <input type="file" name="image" id="image" class="form-control" />
+          <input type="file" name="image" id="image" class="form-control" required />
+          <br>
 
+          {{#each category.specs}}
+          <label for="{{this}}">{{this}}</label><br>
+          <input type="text" name="{{this}}" id=""><br>
+          {{/each}}
+          {{!-- <label for="category">Category</label> --}}
 
+          {{!-- <select id="category" name="category">
+            {{#each category}}
+            <option value="{{this.name}}" selected>{{@index}} {{this.name}}</option>
+
+            {{/each}}
+          </select> --}}
+
+          <br>
           <input type="submit" value="Submit" class="btn btn-success mt-5">
         </form>
       </div>

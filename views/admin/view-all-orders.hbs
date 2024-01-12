@@ -1,0 +1,27 @@
+<div class="container">
+
+  <h2>All orders</h2>
+
+ {{#each orders}}
+ <div class="card p-4 border-0 m-2" style="background-color:rgb(220, 247, 255)">
+    <h5>Order ID : {{this._id}}</h5>
+    <h6>User ID : {{this.userId}} </h6>
+<br>  <a href="/admin/view-user-order/{{this.userId}}"><button class="btn btn-success">View User profile</button></a>
+<br>
+
+<h6>Order date : {{this.date}}</h6>
+    {{#each products}}
+<div class="card m-2 p-2 border-0" style="background-color:rgb(255, 255, 255)">
+                        <p>Name: {{this.product.name}}</p>
+                        <p>Price: {{this.product.price}}</p>
+                        <p>Quantity: {{this.quantity}}</p>
+                        
+          </div>   
+{{/each}}
+<h5>Total amount : {{this.total}}</h5>
+<h6>Status : {{this.status}}</h6>
+<h6>Payment method : {{this.paymentMethod}}</h6>
+</div>
+{{/each}}  
+  
+</div>

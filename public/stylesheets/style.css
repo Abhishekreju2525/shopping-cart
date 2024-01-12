@@ -1,0 +1,141 @@
+body {
+    background-color: #ffffff;
+    color: #2a2a2a;
+    font-family: Arial, sans-serif;
+}
+
+
+/* Navbar styles */
+
+.userNavBar {
+    background-color: 363062;
+    padding: 15px 20px;
+}
+
+.navbar-brand {
+    color: #ff0000;
+}
+
+.navbar-toggler-icon {
+    background-color: #ff0000;
+}
+
+.nav-link {
+    color: #ffffff;
+}
+
+.nav-link:hover {
+    color: #ff0000;
+}
+
+.badge-success {
+    background-color: #ff0000;
+}
+
+
+/* Styling for the account dropdown */
+
+.prodCard {
+    overflow: hidden;
+    width: 15rem;
+    height: 25 rem !important;
+    border-radius: 0.5rem;
+    transition: transform 0.2s;
+    border: none;
+}
+
+.prodCard:hover {
+    transform: scale(1.01);
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.card-columns {
+    @include media-breakpoint-only(lg) {
+        column-count: 4;
+    }
+    @include media-breakpoint-only(xl) {
+        column-count: 5;
+    }
+}
+
+.custom-card-body {
+    height: 20rem;
+}
+
+.address-card {
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    /* Adjust the maximum width as needed */
+}
+
+.address-card select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+
+/* Style the select dropdown */
+
+#address-select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+#address-select:hover {
+    border-color: #007bff;
+}
+
+
+/* Style the select dropdown options */
+
+#address-select option {
+    background-color: #fff;
+    color: #333;
+    font-size: 14px;
+    padding: 10px;
+}
+
+
+/* Add hover effect on options */
+
+#address-select option:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+
+/* Style the selected option */
+
+#address-select option:checked {
+    background-color: #007bff;
+    color: #fff;
+}
+
+
+/* Style the container */
+
+.address-card {
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+}

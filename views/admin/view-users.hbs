@@ -1,0 +1,18 @@
+<div class="container">
+
+  <h2>All Users</h2>
+
+ {{#each orders}}
+ <div class="card p-4 border-0 m-2" style="background-color:rgb(220, 247, 255)">
+    <h5>User ID : {{this._id}}</h5>
+    <h6>Name : {{this.name}}</h6>
+    <h6>Email : {{this.email}}</h6>
+    <a href="/admin/view-user-order/{{this._id}}">
+    <button class="btn btn-primary">View orders</button></a>
+
+   
+
+</div>
+{{/each}}  
+  
+</div>

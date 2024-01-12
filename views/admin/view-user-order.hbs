@@ -1,0 +1,27 @@
+<div class="container">
+
+  <h2>Orders </h2>
+  <h5>User ID : {{userData._id}}</h5>
+  <h6>Name : {{userData.name}}</h6>
+  <h6>Email ID : {{userData.email}}</h6>
+
+
+ {{#each orders}}
+ <div class="card p-4 border-0 m-2" style="background-color:rgb(220, 247, 255)">
+    <h5>Order ID : {{this._id}}</h3>
+
+    {{#each products}}
+<div class="card m-2 p-2 border-0" style="background-color:rgb(255, 255, 255)">
+                        <p>Name: {{this.product.name}}</p>
+                        <p>Price: {{this.product.price}}</p>
+                        <p>Quantity: {{this.quantity}}</p>
+                        
+          </div>   
+{{/each}}
+<h5>Total amount : {{this.total}}</h5>
+<h5>Status : {{this.status}}</h5>
+<h5>payment method : {{this.paymentMethod}}</h5>
+</div>
+{{/each}}  
+  
+</div>

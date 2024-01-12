@@ -1,28 +1,32 @@
 <section>
-  <div class="container">
-    <div class="row mt-5">
-      <a href="admin/add-product" class="btn btn-success ml-auto">Add product</a>
+  <div class="container p-0">
+    <div class="row mt-5 mb-5 p-0">
+      <a href="/admin/choose-category" class="btn btn-success ml-auto">Add product</a>
     </div>
-    <table class="table mt-5">
+    <table class="table mt-5 hover order-column stripe row-border" id="productsTable">
       <thead>
         <tr>
-          <th scope="col">#</th>
+          {{!-- <th scope="col">#</th> --}}
           <th scope="col">Item</th>
           <th scope="col">Category</th>
           <th scope="col">Description</th>
           <th scope="col">Price</th>
+          <th scope="col">Discount %</th>
+          <th scope="col">Offer price</th>
           <th scope="col">Image</th>
-
+<th scope="col">Options</th>
         </tr>
       </thead>
       <tbody>
         {{#each products}}
           <tr>
-            <th scope="row">{{@index}}</th>
+            {{!-- <th scope="row">{{@index}}</th> --}}
             <td>{{this.name}}</td>
             <td>{{this.category}}</td>
             <td>{{this.description}}</td>
             <td>{{this.price}}</td>
+            <td>{{this.discount}}</td>
+            <td>{{this.offerPrice}}</td>
             <td>
               <img
                 style="height:60px;width:auto;"
@@ -32,12 +36,11 @@
             </td>
             <td scope="col">
               <a href="/admin/edit-products/{{this._id}}">
-              <button type="button" class="btn btn-primary">Edit</button>
+              <button type="button" class="btn btn-primary m-2">Edit</button>
               </a>
-              </td>
-            <td scope="col">
+              
               <a href="/admin/delete-product/{{this._id}}">
-                <button type="button" class="btn btn-danger" onclick="return confirm('Are you sure, you want to delete {{this.name}}')">Delete</button>
+                <button type="button" class="btn btn-danger m-2" onclick="return confirm('Are you sure, you want to delete {{this.name}}')">Delete</button>
               </a>
             </td>
           </tr>
@@ -47,3 +50,9 @@
     </table>
   </div>
 </section>
+
+<script>
+  $(function (){
+    $('#productsTable').DataTable();
+  });
+</script>

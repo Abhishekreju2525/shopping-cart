@@ -1,0 +1,29 @@
+<section>
+    <div class="container">
+        <h3>
+            Manage product categories
+        </h3>
+        <br>
+        <span style="float:right">
+            <a href="/admin/add-category"><button class="btn btn-danger float-lg-end">Add category</button></a>
+        </span><br>
+        <br>
+        {{#each category}}
+        <div class="card">
+            <div class="card-body">
+
+                {{this.name}}
+                <span style="float:right">
+
+                    <a href="/admin/edit-category/{{this._id}}"><button class="btn btn-primary float-lg-end">
+                            View/Edit</button></a>
+                    &nbsp;&nbsp;
+                    <button style="border:none;background:none; float:right"
+                        onclick="confirmAndDeleteCategory('{{this._id}}')"><i class="fa fa-trash"
+                            style="color: #141414;"></i></button>
+                </span>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</section>

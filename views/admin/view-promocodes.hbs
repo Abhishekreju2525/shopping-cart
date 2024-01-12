@@ -1,0 +1,85 @@
+<section>
+    <div class="container">
+        <h3>
+            Manage promo codes
+        </h3>
+
+        <br>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Add a coupon
+        </button>
+        <br>
+        <br>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Select an address</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="address-form" class="form-group" action="/admin/add-coupon" method="post">
+                    <div class="modal-body">
+                        
+
+                            <div class="form-check">
+                                <label for="code" class=" fw-bold">Code :</label>
+                                <input class="form-control" type="text" name="code" id="code" value="" required><br>
+                                <p class=" fw-bold">Choose coupon type :</p>
+                                <input class="form-check-input" type="radio" name="couponType" id="percent"
+                                    value="percentage">
+                                <label class="form-check-label" for="percent">Percentage discount</label> &nbsp; <br> 
+                                <input class="form-check-input" type="radio" name="couponType" id="amount"
+                                    value="amount">
+                                <label class="form-check-label" for="amount">Price discount</label>
+                                <br>
+                                <br>
+                                <label for="discount" class=" fw-bold">Discount :</label>
+                                <input class="form-control" type="text" name="discount" id="discount" value="" required><br>
+
+                            </div>
+
+                        
+                    </div>
+                    <div class="modal-footer">
+                        {{!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> --}}
+                        <input type="submit" class="btn btn-primary" >
+                    </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        {{#each coupon}}
+        <div class="card">
+            <div class="card-body">
+
+                <b>{{this.code}}</b> <br>
+                Type: {{this.couponType}} <br>
+
+                
+                {{#if (eq this.couponType 'percentage')}}
+                Discount: {{this.discount}}%
+                {{else}}
+                Discount: ₹{{this.discount}}
+                {{/if}}
+                <span style="float:right">
+
+                    <button style="border:none;background:none; float:right"
+                        onclick="confirmAndDeleteCoupon('{{this._id}}')"><i class="bi bi-trash"></i></button>
+                </span>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</section>
+
+<script>
+   
+</script>

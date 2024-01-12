@@ -1,0 +1,37 @@
+<section>
+    <div class="container mt-4">
+        <div class="row">
+
+            <div class="col">
+                <h2 class="text-center">Edit Category</h2>
+
+                <form action="/admin/edit-category/{{category._id}}" method="post" enctype="multipart/form-data">
+                    <label for="name">Name</label>
+                    <input type="text" name="name" id="name" class="form-control" value="{{category.name}}" />
+                    <br>
+                    {{!-- {{category._id}} --}}
+                    <label>Technical specification fields</label>
+                    <br>
+                    {{#each category.specs}}
+                    <span>
+                        {{this}} <button style="border:none;background:none; float:left"
+                            onclick="confirmAndDeleteCategorySpecs('{{../category._id}}','{{this}}')"><i
+                                class="fa fa-trash" style="color: #ff0000;"></i></button><br>
+                    </span>
+                    {{/each}}
+                    <br>
+                    <input type="text" name="newSpec" id="newSpec" placeholder="Add a new field">
+
+                    <button style="border:none;background:none;" onclick="addNewCategorySpec('{{category._id}}')"><i
+                            class="fa fa-plus"></i></button>
+                    <br>
+                    <input type="submit" value="Submit" class="btn btn-success mt-5">
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+
+</script>

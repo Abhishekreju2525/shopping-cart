@@ -1,62 +1,112 @@
 <header>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Shopping Cart</a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-toggle="collapse"
-      data-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
+  <section class="ftco-section">
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
 
-        <li class="nav-item">
-          <a class="nav-link" href="/">Products</a>
-        </li>
+    <div class="container-fluid px-sm-4">
+      <div class="row justify-content-between " style="color: black;">
+        <div class="col-7  align-content-center pr-0">
+          <a class="navbar-brand" href="/">
+            GADGETS ZER<i class="fa fa-mobile"></i>
+          </a>
+        </div>
+        <div class="col-5 d-flex pl-0 align-items-center justify-content-end pb-2">
 
-        <li class="nav-item">
-          <a class="nav-link" href="/cart">Cart</a>
-        </li>
+          <a href="/cart" class="d-flex pr-2">
+            <span class="material-symbols-outlined">
+              shopping_cart
+            </span>
 
-       {{#if user}}
-        <li class="nav-item">
-          <a class="nav-link" href="#">Orders</a>
-        </li>
-        {{/if}}
-      </ul>
+          </a><span class="badge bg-danger text-white">{{cartcount}}</span>
 
-      <div class="dropdown">
-        <button
-          class="btn btn-secondary dropdown-toggle"
-          type="button"
-          id="dropdownMenuButton"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-        >
-          {{#if user}}
-            {{user.name}}
-          {{else}}
-            Account
-          {{/if}}
 
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+&nbsp;&nbsp;
+          <div class=" dropBtn ">
+            <div class="userdropdown">
 
-          
-          {{#if user}}
-              <a class="dropdown-item" href="/logout">Logout</a>
-            {{else}}<a class="dropdown-item" href="/login">Login</a>
-            {{/if}}</a>
+              <div id="userProfileButton">
 
+              </div>
+
+              <div class="userdropdown-content">
+                {{#if user}}
+                <div id="dropdownUserNameDisplay">
+
+
+                </div>
+                <a class="dropdown-item" href="/view-user-profile">View Profile</a>
+                <hr>
+                <a class="dropdown-item" href="/view-orders">View Orders</a>
+                <hr>
+                <a class="dropdown-item" href="/logout">Logout</a>
+                {{else}}
+                <a class="dropdown-item" href="/login">Login</a>
+                {{/if}}
+              </div>
+
+              <div>
+
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </nav>
+    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+      <div class="container-fluid">
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
+          aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="fa fa-bars"></span> Menu
+        </button>
+        <div class="collapse navbar-collapse p-2" id="ftco-nav">
+
+          <ul class="navbar-nav m-auto p-2">
+            <li class="nav-item active"><a href="/" class="nav-link">Home</a></li>
+            {{!-- <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">Shop by category</a>
+              <div class="dropdown-menu" aria-labelledby="dropdown04">
+                {{#each category}}
+                <a class="dropdown-item" href="/view-category/?category={{this.name}}">{{this.name}}</a>
+                {{/each}}
+              </div>
+            </li> --}}
+            {{#each categoriesData}}
+            <li class="nav-item">
+              <a class="nav-link" href="/view-category/?category={{this.name}}">
+                {{this.name}}
+              </a>
+            </li>
+            {{/each}}
+
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+    <!-- END nav -->
+
+  </section>
 </header>
+
+<script>
+  $(document).ready(function () {
+    function updateContent() {
+      var userProfileButton = $("#userProfileButton");
+      var dropdownUserNameDisplay = $("#dropdownUserNameDisplay");
+      if (window.innerWidth >= 576) {
+        userProfileButton.html("{{#if user}} Welcome {{user.name}} {{/if}} <i class='fa fa-user' style='font-size: large;'></i>");
+        dropdownUserNameDisplay.html(" ");
+      } else {
+        userProfileButton.html("<i class='fa fa-user' style='font-size: large;'></i>");
+        dropdownUserNameDisplay.html(" {{#if user}} <span> {{user.name}} </span> {{/if}} <hr>");
+      }
+    }
+
+    // Initial call to set the content based on the initial screen width
+    updateContent();
+
+    // Update the content when the window is resized
+    $(window).on('resize', updateContent);
+  });
+</script>

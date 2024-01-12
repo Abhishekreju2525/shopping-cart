@@ -1,0 +1,96 @@
+<div class="container">
+
+  <h2>Order history</h2>
+
+  {{#each orders}}
+  <div class="card mb-3 p-3"
+    style="box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;border:0;">
+    <div class="row g-0">
+      <h5 class="card-title fs-6 text-muted">Order ID : #{{this._id}}</h5>
+      <hr>
+
+      <!-- Order content -->
+      <div class="col-md-10">
+        <div class="card-body">
+
+
+          <h5 class="text-success">Total Amount : <strong>₹{{this.total}}</strong></h5>
+          <h6>Payment method : {{this.paymentMethod}}</h6>
+          <p class="text-muted">Ordered on {{this.date}}</p>
+        </div>
+      </div>
+      <div class="col-md-2 my-auto p-2">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#orderModal{{this._id}}">
+          View order
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product modals for this order -->
+  <div
+    style="z-index: 99999;border:0;backdrop-filter: blur(5px);background-color: rgba(255, 255, 255, 0.2);box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px; "
+    class="modal fade" id="orderModal{{this._id}}" tabindex="-1" aria-labelledby="orderModal{{this._id}}Label"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content"
+        style="background-color: rgb(255, 255, 255);border:0;box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px; ">
+        <div class="modal-header">
+          <h5 class="modal-title fs-6 text-muted" id="orderModal{{this._id}}Label">Order ID : #{{this._id}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> <br>
+
+        </div>
+        <div class="modal-body">
+          {{#each products}}
+
+
+          <div class="card mb-3"
+            style="box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;background-color: rgba(233, 237, 255, 0.788);border:0;">
+            <div class="row g-0">
+              <!-- Order content -->
+              <div class="col-3 p-4">
+                <img src="/product-images/{{this.product._id}}.jpg" alt="" style="height: 3rem;width:3rem;">
+              </div>
+              <div class="col-9">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-7">
+                      <h5 class="card-title"><strong>{{this.product.name}}</strong></h5>
+                      <h5 class="text-success">₹{{this.product.price}}</strong></h5>
+                    </div>
+                    <div class="col-md-5">
+                      <h6>Quantity: {{this.quantity}}</h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          {{/each}}
+          <br>
+          <h5 class="text-muted">Shipping address</h5>
+          <hr>
+          {{this.address.name}} <br>
+          {{this.address.housename}}<br>
+          {{#if this.address.line1.length}}
+          {{this.address.line1}}
+          {{/if}}
+          {{#if this.address.line2.length}}
+          {{this.address.line2}}
+          {{/if}}
+          {{this.address.area}}<br>
+          {{this.address.city}}<br>
+          {{this.address.pincode}}<br>
+          {{this.address.state}}<br>
+          {{this.address.country}}<br>
+          +91 {{this.address.phone}}
+        </div>
+
+      </div>
+    </div>
+  </div>
+  {{/each}}
+
+
+</div>

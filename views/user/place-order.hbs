@@ -1,0 +1,414 @@
+<div class="container mt-3">
+    <!-- Button trigger modal -->
+    <div class="row g-5">
+        <div class="col-md-5 col-lg-4 order-md-last">
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-primary">Your cart</span>
+                <span class="badge bg-primary rounded-pill">{{cartProducts.length}}</span>
+            </h4>
+            <ul class="list-group mb-3">
+                {{#each cartProducts}}
+                <li class="list-group-item d-flex justify-content-between lh-sm ">
+                    <div>
+                        <h6 class="my-0">{{this.product.name}}</h6>
+                        <small class="text-body-secondary">Quantity : {{this.quantity}}</small>
+                    </div>
+                    <span class="text-body-secondary">
+                        <i class="bi bi-currency-rupee"></i>{{multiply this.product.offerPrice this.quantity}}<br>
+                    </span>
+
+                </li>
+                {{/each}}
+
+                <li class="list-group-item d-flex justify-content-between" style="font-size:1.3rem">
+                    <span>MRP (INR)</span>
+                    <strong><i class="bi bi-currency-rupee"></i>{{totalMRP}}</strong>
+
+                </li>
+                <li class="list-group-item d-flex justify-content-between" style="font-size:1rem;color:grey;">
+
+                    <span>Discount </span>
+                    <span>-<strong><i class="bi bi-currency-rupee"></i>{{subtract totalMRP total}}</strong></span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
+                    <div class="text-success">
+                        <h6 class="my-0">Promo code</h6>
+
+                    </div>
+                    <span class="text-success" id="discount-display">- ₹0</span>
+                </li>
+
+                <li class="list-group-item d-flex justify-content-between" style="font-size:1.9rem;">
+                    <span>Total (INR)</span>
+                    <strong>₹<span id="total-pay-amount">{{total}}</span></strong>
+                </li>
+                <li class="list-group-item d-flex justify-content-between" style="font-size:1rem;color:grey;">
+
+                    <span>Total savings </span>
+                    <span id="total-savings-display">-<strong>₹{{subtract totalMRP total}}</strong></span>
+                </li>
+            </ul>
+
+            <form class="card p-2">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Promo code" id="promocode-input">
+                    <button type="button" class="btn btn-secondary" onclick="redeemPromoCode()">Redeem</button>
+                </div>
+            </form>
+        </div>
+
+
+
+        <div class="col-md-7 col-lg-8">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Select address
+            </button>
+
+            <button type="button" class="btn btn-light" id="clearButton"><i class="bi bi-x"></i>Clear</button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Select an address</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="address-form">
+                                {{#if user.address.length}}
+                                {{#each user.address}}
+                                <div class="form-check">
+                                    <input type="radio" class="form-check-input" name="selected-address"
+                                        id="address-{{@index}}" value="{{@index}}">
+                                    <label class="form-check-label" for="address-{{@index}}">
+                                        {{this.name}}
+                                        {{this.housename}}
+                                        {{this.line1}}
+                                        {{this.line2}}
+                                        {{this.area}}
+                                        {{this.city}}, {{this.state}}, {{this.country}}
+                                        PIN: {{this.pincode}}
+                                        +91 {{this.phone}}
+                                    </label>
+                                </div>
+                                {{/each}}
+                                {{else}}
+                                No addresses found
+                                {{/if}}
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary"
+                                onclick="selectedAddressData()">Select</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <form id="checkout-form" action="" method="post" enctype="multipart/form-data" class="p-2">
+
+                <label for="name">Name</label>
+                <input type="text" name="name" id="name" class="form-control" placeholder="Eg: John Doe" required />
+
+                <label for="phone">Mobile number</label>
+                <div class="input-group ">
+                    <span class="input-group-text">+91</span>
+                    <input type="tel" name="phone" id="phone" class="form-control" required />
+                </div>
+
+                <label for="housename">Flat, House no., Building, Company, Apartment</label>
+                <input type="text" name="housename" id="housename" class="form-control" required />
+
+
+                <label for="line1">Address Line 1 </label>
+                <input type="text" name="line1" id="line1" class="form-control" />
+
+                <label for="line2">Address Line 2 (optional)</label>
+                <input type="text" name="line2" id="line2" class="form-control" />
+
+                <label for="pincode">Pincode</label>
+                <input type="text" name="pincode" id="pincode" class="form-control" required />
+                <div id="pincode-alert" class="alert alert-danger" style="display: none;">
+                    Invalid Pincode
+                </div>
+
+                <label for="area">Area/Locality</label>
+                <input type="text" name="area" id="area" class="form-control" required />
+
+                <label for="city">City</label>
+                <input type="text" name="city" id="city" class="form-control" required />
+
+                <label for="state">State</label>
+                <input type="text" name="state" id="state" class="form-control" required />
+
+                <label for="country">Country</label>
+                <input type="text" name="country" id="country" class="form-control" value="India" required />
+
+
+                <div id="loading-spinner" class="text-center" style="display: none;">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+                <div class="col border rounded p-3 mt-3">
+
+                    Choose payment method<br>
+                    <div class="form-check">
+
+                        <input type="radio" name="payment" id="cod" class="form-check-input" value="COD" checked>
+                        <label for="cod" class="form-check-label">Cash on delivery</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" name="payment" id="online" class="form-check-input" value="ONLINE">
+                        <label for="online" class="form-check-label">Online payment</label>
+                    </div>
+                    <input type="text" name="userId" id="user-id" value="{{user._id}}" hidden>
+                    <input type="text" name="totalUpdatedAmt" id="totalUpdatedAmt" value="{{total}}" hidden>
+                    <button class="btn btn-success mt-4" type="submit">
+                        Checkout
+                    </button>
+                </div>
+                <br>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#clearButton').click(function () {
+                // Select the form and reset it to clear all input values
+                $('#checkout-form')[0].reset();
+            });
+        });
+
+        (() => {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            const forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+
+        $("#checkout-form").submit((e) => {
+            e.preventDefault()
+            $.ajax({
+                url: '/place-order',
+                method: 'post',
+                data: $('#checkout-form').serialize(),
+                success: (response) => {
+                    alert(response.toString())
+                    if (response.codSuccess) {
+                        location.replace('/order-success')
+                    }
+                    else {
+                        razorpayPayment(response)
+                    }
+                }
+            })
+        })
+
+        function razorpayPayment(order) {
+            
+            var options = {
+                "key": "rzp_test_TXt26IVau0xOmj", // Enter the Key ID generated from the Dashboard
+                "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                "currency": "INR",
+                "name": "Gadgets zero",
+                "description": "Test Transaction for shopping cart",
+                "image": "https://example.com/your_logo",
+                "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                "handler": function (response) {
+
+                    verifyPayment(response, order)
+                },
+                "prefill": {
+                    "name": "{{user.name}}",
+                    "email": "{{user.email}}",
+                    "contact": "{{user.phone}}"
+                },
+                "notes": {
+                    "address": "Sample billing address"
+                },
+                "theme": {
+                    "color": "#3399cc"
+                }
+            };
+            var rzp1 = new Razorpay(options);
+            rzp1.open();
+        }
+        function verifyPayment(payment, order) {
+            $.ajax({
+                url: '/verify-payment',
+                data: {
+                    payment,
+                    order
+                },
+                method: 'post',
+                success: (response) => {
+                    if (response.status) {
+                        location.href = '/order-success'
+                    }
+                    else {
+                        alert('Payment failed')
+                    }
+                }
+            })
+        }
+        function selectedAddressData() {
+            var encodedData = '{{userjsonObj}}'; // Use a scriptlet to access the HTML-encoded JSON data
+            var temporaryElement = document.createElement('div');
+            var getSelectedValue = document.querySelector('input[name="selected-address"]:checked').value;
+            var indexVal = parseInt(getSelectedValue);
+            temporaryElement.innerHTML = encodedData;
+            var userObj = JSON.parse(temporaryElement.textContent);
+
+            console.log(userObj.address[indexVal]);
+            var addressObj = userObj.address[indexVal];
+            for (const key in addressObj) {
+                if (addressObj.hasOwnProperty(key)) {
+                    const value = addressObj[key];
+                    const idSelector = `#${key}`;
+                    console.log(`${key}: ${value}`);
+                    $(idSelector).val(value);
+                }
+            }
+            $('#exampleModal').modal('hide');
+        }
+
+        // Show the modal when the button is clicked
+        // Show the modal when the button is clicked
+
+
+    </script>
+
+    <script>
+        // Function to show an alert message
+        function showAlert(message) {
+            const alert = document.getElementById("pincode-alert");
+            alert.innerText = message;
+            alert.style.display = "block";
+        }
+
+        // Function to hide the alert message
+        function hideAlert() {
+            const alert = document.getElementById("pincode-alert");
+            alert.style.display = "none";
+        }
+
+        // Function to show the loading spinner
+        function showLoading() {
+            document.getElementById("loading-spinner").style.display = "block";
+        }
+
+        // Function to hide the loading spinner
+        function hideLoading() {
+            document.getElementById("loading-spinner").style.display = "none";
+        }
+
+        // Function to validate the pincode format
+        function validatePincodeFormat(pincode) {
+            // Here, we are using a regular expression to check for a valid pincode format (6 digits)
+            return /^\d{6}$/.test(pincode);
+        }
+
+        // Function to make an API request and populate address fields
+        async function fetchAddressData(pincode) {
+            hideAlert(); // Hide any previous alerts
+            if (!validatePincodeFormat(pincode)) {
+                showAlert("Invalid Pincode Format");
+                return;
+            }
+
+            showLoading(); // Show loading spinner while fetching data
+
+            try {
+                const response = await fetch(`https://api.postalpincode.in/pincode/${pincode}`);
+                const data = await response.json();
+
+                if (data && data[0].PostOffice) {
+                    const postOffice = data[0].PostOffice[0];
+
+                    // Populate the address fields with the retrieved data
+                    document.getElementById("area").value = postOffice.Block;
+                    document.getElementById("city").value = postOffice.District;
+                    document.getElementById("state").value = postOffice.State;
+                    document.getElementById("country").value = postOffice.Country;
+                } else if (data && data[0].Message === "No records found") {
+                    showAlert("Invalid Pincode");
+                }
+            } catch (error) {
+                console.error('Error fetching address data:', error);
+            } finally {
+                hideLoading(); // Hide loading spinner after fetching data
+            }
+        }
+
+        // Add an event listener to the "Pincode" input field
+        document.getElementById("pincode").addEventListener("blur", function () {
+            const pincode = this.value;
+            if (pincode) {
+                fetchAddressData(pincode);
+            }
+        });
+
+        function redeemPromoCode() {
+            var encodedData = '{{couponObj}}'; // Use a scriptlet to access the HTML-encoded JSON data
+            var temporaryElement = document.createElement('div');
+            temporaryElement.innerHTML = encodedData;
+            var couponJsObj = JSON.parse(temporaryElement.textContent);
+            console.log(couponJsObj);
+            totalAmt = parseInt({{ total }});
+        console.log("total", totalAmt)
+        const promoCodeInput = document.getElementById("promocode-input");
+        const promoCode = promoCodeInput.value;
+        const matchingCode = couponJsObj.find(couponObj => couponObj.code === promoCode);
+        const totalSavingsDisplay = document.getElementById("total-savings-display");
+        const totalPayDisplay = document.getElementById("total-pay-amount");
+         
+        
+        if (matchingCode) {
+            const discountInfo = document.getElementById("discount-display");
+            if (matchingCode.couponType === "percentage") {
+                promoSavings = parseInt(matchingCode.discount) * (totalAmt / 100);
+                updatedTotal = parseInt(totalAmt) - promoSavings;
+                totalSavings = parseInt({{ totalMRP }}) -updatedTotal;
+            discountInfo.innerHTML = `${matchingCode.code} : <strong>-₹${promoSavings}</strong>`;
+            promoCodeInput.value = ``;
+            totalSavingsDisplay.innerHTML = `-<strong>${totalSavings}</strong>`;
+            totalPayDisplay.innerHTML=`${updatedTotal}`;
+            $('#totalUpdatedAmt').val(updatedTotal);
+            console.log("updated value : ",$('#totalUpdatedAmt').val());
+        }
+        else if (matchingCode.couponType === "amount") {
+            updatedTotal = parseInt(totalAmt) - parseInt(matchingCode.discount);
+            totalSavings = parseInt({{ totalMRP }}) -updatedTotal;
+        discountInfo.innerHTML = `${matchingCode.code} : <strong>-₹${matchingCode.discount}</strong>`;
+        promoCodeInput.value = ``;
+        totalSavingsDisplay.innerHTML = `-<strong>₹${totalSavings}</strong>`;
+        totalPayDisplay.innerHTML=`${updatedTotal}`;
+        $('#totalUpdatedAmt').val(updatedTotal);
+        
+        console.log("updated value : ",$('#totalUpdatedAmt').val());
+                }
+                
+            } else {
+            const discountInfo = document.getElementById("discount-display");
+            discountInfo.innerHTML = "Invalid promo code.";
+        }
+        }
+
+    </script>

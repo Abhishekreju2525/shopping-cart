@@ -1,0 +1,21 @@
+<section>
+    <div class="container mt-4">
+
+        <h3>
+            Edit {{key}}
+        </h3>
+        <br>
+        <form action="/edit-profile" method="post">
+            {{#if (eq key 'email')}}
+            <input type="{{key}}" name="{{key}}" id="" value="{{user.email}}">
+            {{else}}
+            <input type="text" name="{{key}}" id="" value="{{user.name}}">
+            {{/if}}
+
+
+          
+                <button class="btn btn-primary">Submit</button>
+        
+        </form>
+    </div>
+</section>

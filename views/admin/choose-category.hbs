@@ -1,0 +1,32 @@
+<section>
+  <div class="container pt-5">
+    <center>
+      <select id="category" name="category">
+        {{#each category}}
+          
+            <option value="{{this._id}}">{{this.name}}</option>
+          
+        {{/each}}
+      </select>
+      <a href="#" id="proceedButton" class="btn btn-success ml-auto">Proceed</a>
+    </center>
+  </div>
+</section>
+
+
+<script>
+  $(document).ready(function() {
+    $('#proceedButton').on('click', function(e) {
+      e.preventDefault(); // Prevent the default behavior of the anchor link
+
+      var selectedValue = $('#category').val();
+
+      if (selectedValue) {
+        var url = '/admin/add-product/' + selectedValue; // Encode the value
+        window.location.href = url; // Navigate to the new URL
+      } else {
+        alert('Please select a category before proceeding.');
+      }
+    });
+  });
+</script>
